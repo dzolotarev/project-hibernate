@@ -1,7 +1,7 @@
 package com.game.repository;
 
 import com.game.entity.Player;
-import com.game.utils.HibernateUtil;
+import com.game.utils.FactoryConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -26,7 +26,7 @@ public class PlayerRepositoryDB implements IPlayerRepository {
     private final SessionFactory sessionFactory;
 
     public PlayerRepositoryDB() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = FactoryConfiguration.getInstance().getSessionFactory();
     }
 
     @Override
