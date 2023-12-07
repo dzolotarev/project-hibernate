@@ -1,10 +1,11 @@
 package com.game.repository;
 
 import com.game.entity.Player;
-import com.game.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 import static java.util.Objects.isNull;
 
@@ -26,7 +28,26 @@ public class PlayerRepositoryDB implements IPlayerRepository {
     private final SessionFactory sessionFactory;
 
     public PlayerRepositoryDB() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        Properties properties = getProperties();
+        sessionFactory = new Configuration()
+                .setProperties(properties)
+                .addAnnotatedClass(Player.class)
+                .buildSessionFactory();
+    }
+
+    private static Properties getProperties() {
+        Properties properties = new Properties();
+//        properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
+//        properties.put(Environment.URL, "jdbc:mysql://localhost:3306/rpg");
+        properties.put(Environment.DRIVER, "com.p6spy.engine.spy.P6SpyDriver");
+        properties.put(Environment.URL, "jdbc:p6spy:mysql://localhost:3306/rpg");
+        properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
+        properties.put(Environment.USER, "root");
+        properties.put(Environment.PASS, "root");
+        properties.put(Environment.HBM2DDL_AUTO, "update");
+        properties.put(Environment.SHOW_SQL, "true");
+        properties.put(Environment.FORMAT_SQL, "true");
+        return properties;
     }
 
     @Override
