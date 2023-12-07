@@ -1,10 +1,10 @@
 package com.game.repository;
 
 import com.game.entity.Player;
-import com.game.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
@@ -26,7 +26,7 @@ public class PlayerRepositoryDB implements IPlayerRepository {
     private final SessionFactory sessionFactory;
 
     public PlayerRepositoryDB() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = new Configuration().addAnnotatedClass(Player.class).buildSessionFactory();
     }
 
     @Override
