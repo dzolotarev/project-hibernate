@@ -1,0 +1,25 @@
+body {
+    font-family: sans-serif;
+    min-height: 100vh;
+    color: #555;
+}
+
+table {
+    border-spacing: 0;
+    width: 1000px;
+    /*margin: 30px auto;*/
+}
+
+table th {
+    padding: 10px 0;
+    background-color: #f4f4f4;
+    border: thin solid #d4d4d4;
+}
+
+table td {
+    padding: 10px;
+    border: thin solid #d4d4d4;
+    width: auto;
+    text-align: center;
+    background-color: #fff;
+}
