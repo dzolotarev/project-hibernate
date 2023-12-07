@@ -7,22 +7,37 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class HibernateUtil {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
-    private static SessionFactory buildSessionFactory() {
-        try {
-            StandardServiceRegistry standartServiceRegistry = new StandardServiceRegistryBuilder()
-                    .configure("hibernate.cfg.xml").build();
-            Metadata metadata = new MetadataSources(standartServiceRegistry).getMetadataBuilder().build();
-            return metadata.getSessionFactoryBuilder().build();
-        } catch (HibernateException he) {
-            System.out.println("Session Factory creation failure!");
-            throw he;
+public class HibernateUtil {
+
+    private static SessionFactory SESSION_FACTORY;
+
+    public static void buildSessionFactory() {
+        if (SESSION_FACTORY != null) {
+            return;
+        }
+
+        Configuration configuration = new Configuration();
+        configuration.configure();
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties()).build();
+        SESSION_FACTORY = configuration.buildSessionFactory(serviceRegistry);
+
+    }
+
+    public static Session getCurrentSession() {
+        return SESSION_FACTORY.getCurrentSession();
+    }
+
+    public static void killSessionFactory() {
+        if (SESSION_FACTORY != null) {
+            SESSION_FACTORY.close();
         }
     }
 
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 }
