@@ -1,12 +1,5 @@
 package com.game.utils;
 
-import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -14,7 +7,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-
     private static SessionFactory SESSION_FACTORY;
 
     public static void buildSessionFactory() {
@@ -27,7 +19,6 @@ public class HibernateUtil {
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties()).build();
         SESSION_FACTORY = configuration.buildSessionFactory(serviceRegistry);
-
     }
 
     public static Session getCurrentSession() {
@@ -39,5 +30,4 @@ public class HibernateUtil {
             SESSION_FACTORY.close();
         }
     }
-
 }
